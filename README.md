@@ -56,6 +56,9 @@ The dataset is provided in CSV format and contains 1 file, 19 rows and 56477 col
 - Age Category
 - Customer Age
 - Customer Count
+- Total Revenue From Customers without Children
+- Percentage of Total Revenue From Customers with Children
+- Percentage of Total Revenue From Customers without Children
 - Total Revenue From Customers with Children
 Customers with Children
 - CustomerWithChildren
@@ -66,6 +69,9 @@ Age Caption
 - TopAgeGroup
 - RevenueTopAgeGroup
 - Result
+Top Country with more Customers without Children
+- Number of Country
+- Top Country
 ---
 1. **Standardize Date Format**:
    - The aim of this step is to standardize the format of the SaleDate column to a date format recognized by the database. This involves converting the SaleDate values to a consistent date format and adding a new column (SaleDateConverted) to the dataset to store the standardized dates using the **CONVERT()** Function.
