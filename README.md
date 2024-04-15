@@ -1,113 +1,68 @@
-# Sales-Analysis-Using-PowerBI
+# Customer Performance Report Using PowerBI
 
-![Housing](image-housing.jpg)
+![PowerBI Dashboard](image-housing.jpg)
 
-## Table of Contents
-- [Project Overview](#project_overview)
-- [Data Sources](#data_sources)
-- [Tools](#tools)
-- [Approach Used](#approach_used)
-- [Problem Statatment Questions](#problem_statement_questions)
-- [SQL Code](#sql_code)
-- [Data Visualization](#data-visualization)
-- [Results/Findings](#results_/_findings)
-- [Recommendations](#recommendations)
+## Project Overview
+This project leverages PowerBI to analyze and visualize customer performance data from a retail company. It aims to provide insights into demographics, purchase behaviors, and revenue patterns to aid strategic decision-making and enhance marketing efforts.
 
-### Project Overview
----
-This project involves cleaning the Nashville housing dataset to prepare it for analysis. The dataset contains information about properties in Nashville, including details like ParcelID, LandUse, PropertyAddress, SaleDate, SalePrice, etc.
+## Data Description
+The dataset includes six CSV files:
+- **Customer**: Data on each customer, including age, whether they have children, etc.
+- **Geography**: Geographic data related to customers.
+- **Product**: Information on products such as ID, category, and price.
+- **Date**: Date dimensions for temporal analysis.
+- **Sales Territory**: Details about sales territories.
+- **Fact Internet**: Sales transaction records.
 
-### Data Description
----
-The dataset contains the following columns:
-- UniqueID: Unique identifier for each record
-- ParcelID: Unique identifier for each property parcel
-- LandUse: Classification of land use for each property
-- PropertyAddress: Address of the property
-- SaleDate: Date of property sale
-- SalePrice: Price at which the property was sold
-- LegalReference: Legal reference for the property transaction
-- SoldAsVacant: Indicates whether the property was sold as vacant
-- OwnerName: Name of the property owner
-- OwnerAddress: Address of the property owner
-- Acreage: Acreage of the property
-- TaxDistrict: Tax district of the property
-- LandValue: Value of the land
-- BuildingValue: Value of the building on the property
-- TotalValue: Total value of the property
-- YearBuilt: Year the property was built
-- Bedrooms: Number of bedrooms in the property
-- FullBath: Number of full bathrooms in the property
-- HalfBath: Number of half bathrooms in the property
+These files are integrated within PowerBI to create a comprehensive data model for multi-dimensional analysis of sales performance.
 
-### Data Source
----
-The dataset is provided in CSV format and contains 1 file, 19 rows and 56477 columns - [Download Raw Dataset Here](NashvilleHousing.csv) and for updated and cleaned version of the dataset - [Download Cleaned Dataset Here](NashvilleHousing-Cleaned.csv) 
+## Data Source
+The dataset is provided in CSV format.  
+[Download Raw Dataset Here](NashvilleHousing.csv)
 
-### Tools
----
-- Microsoft SQL Server for Data Cleaning and Transformation
-  
-### Approach Used In Data Cleaning:
+## Tools Used
+- **Microsoft Power BI**: Employed for data cleaning, transformation, exploration, and visualization.
 
-- Total Revenue
-- Average Revenue By Age Group
-- ConditionFormatting Age-Group
-- Age Category
-- Customer Age
-- Customer Count
-- Total Revenue From Customers without Children
-- Percentage of Total Revenue From Customers with Children
-- Percentage of Total Revenue From Customers without Children
-- Total Revenue From Customers with Children
-Customers with Children
-- CustomerWithChildren
-Age Caption
-- Variables
-- AvgRevenueAgeGroup
-- RevenueFilteredTable
-- TopAgeGroup
-- RevenueTopAgeGroup
-- Result
-Top Country with more Customers without Children
-- Number of Country
-- Top Country
----
-1. **Standardize Date Format**:
-   - The aim of this step is to standardize the format of the SaleDate column to a date format recognized by the database. This involves converting the SaleDate values to a consistent date format and adding a new column (SaleDateConverted) to the dataset to store the standardized dates using the **CONVERT()** Function.
-2. **Populate Property Address**:
-   - The aim of this step is to populate missing PropertyAddress values by matching ParcelID values with other records in the dataset. If a PropertyAddress is missing for a record (a), it looks for records with the same ParcelID but different UniqueID (b). It then updates the missing PropertyAddress using the PropertyAddress from the matched record (b) using the **ISNULL()** Function.
-3. **Break out Address into Individual Columns**:
-   - The aim of this step is to break down the PropertyAddress column into separate columns for the address and city. This involves adding new columns (PropertySplitAddress and PropertySplitCity) to the dataset and extracting the address and city information from the PropertyAddress column using string manipulation functions **SUBSTRING(), CHARINDEX()**.
-4. **Break out Owner Address into Individual Columns**:
-   - The aim of this step is to break down the OwnerAddress column into separate columns for the address, city, and state of the property owner. This involves adding new columns (OwnerSplitAddress, OwnerSplitCity, and OwnerSplitState) to the dataset and parsing the address information using string manipulation functions **PARSENAME(), REPLACE()**.
-5. **Change Y and N to Yes and No**:
-    -  The aim of this step is to standardize the values in the SoldAsVacant column to 'Yes' and 'No' instead of 'Y' and 'N', respectively. This involves updating the values in the SoldAsVacant column using a **CASE STATEMENT** to replace 'Y' with 'Yes', 'N' with 'No', and keep other values unchanged.
-6. **Remove Duplicates**: Identify and remove duplicate rows based on selected criteria.
-    -  The aim of this step is to identify and display duplicate rows in the dataset based on selected criteria. **Common Table Expressions (CTEs)** are used to create a temporary result set (RowNumCTE) that assigns a row number to each record within groups defined by the **PARTITION BY** clause. Records with the same combination of ParcelID, PropertyAddress, SalePrice, SaleDate, and LegalReference are considered duplicates. The row_num column indicates the occurrence of each record within its group. The final SELECT statement retrieves duplicate rows where row_num is greater than 1, indicating duplicate occurrences.
-7. **Delete Unused Columns**:
-    - The aim of this step is to remove unused columns from the dataset to improve data clarity and efficiency. The **ALTER TABLE** statement with the **DROP COLUMN** clause is used to permanently remove the specified columns (OwnerAddress, PropertyAddress, SaleDate) from the nashville table. These columns are considered unnecessary for further analysis after completing the data cleaning process.
-  
+## Key Insights
+This Customer Performance Report generates several key insights:
+- **Total Revenue**: Summarizes total sales revenue.
+- **Average Age of Customers**: Calculates the average age across all customers.
+- **Total Count of Customers**: Enumerates total number of customers within the dataset.
+- **Customer Categorization**: Classifies customers based on their order history and purchasing volumes:
+  - **VIP Customers**: Customers with at least 2 orders and total purchases of $100 or more.
+  - **Loyal Customers**: Customers who have placed multiple orders regardless of purchase value.
+  - **Periodic Buyers**: Customers with fewer interactions and smaller purchase volumes.
+- **Revenue Analysis by Parental Status**: Analyzes differences in revenue between customers who have children and those who do not.
+- **Dynamic Ranking System**: Implements a system to rank top-performing customers based on frequency, monetary value, and recent purchases.
+- **Revenue Based on Gender**: Examines revenue generation segmented by customer gender.
 
+## PowerBI Techniques Used
 
-### SQL Queries:
----
-For the rest of the code, check the [SQL Code](nashville-housing.sql) file
-```SQL
+### Variables
+- **Customer Age**: Indicates the age of the customer.
+- **CustomerWithChildren**: Indicates whether customers have children.
+- **Age Category**: Categorizes customers into age brackets.
+- **Top Country**: Identifies the country with the highest number of customers without children.
+
+### Measures
+- **Total Revenue**: Captures the total sales revenue.
+- **Customer Count**: Counts the number of unique customers.
+- **Total Revenue From Customers with Children**: Aggregates revenue from customers who have children.
+- **Total Revenue From Customers without Children**: Aggregates revenue from customers without children.
+- **Average Revenue By Age Group**: Computes the average revenue per age category.
+
+### Visualization Techniques
+- **Conditional Formatting**: Enhances readability and visual appeal of reports.
+- **Interactive Filters**: Allows users to customize data views according to various parameters.
+- **Dynamic Ranking**: Features tables that update dynamically to showcase top-performing customers.
+
+## SQL Code for Data Preparation
+For the rest of the code, check the [SQL Code](nashville-housing.sql) file.
+```sql
 CREATE DATABASE nashville_housing;
 ---import nashville housing csv file
 
 SELECT *
 FROM nashville_housing.dbo.nashville;
 
-```
 
-### Data Cleaning Challenges
----
-During the data cleaning process, several challenges were encountered, including missing values in the some columns, inconsistencies in date formats, and duplicate rows in the dataset. These challenges were addressed using various SQL queries and data manipulation techniques.
-
-### Data Cleaning Results
-The data cleaning process resulted in a cleaned dataset ready for further analysis. A total of 56,00+ columns were cleaneand, including filling in missing address information, standardizing date formats, and removing 104 duplicate rows. The cleaned dataset provides a reliable foundation for future analysis and exploration. For updated and cleaned version of the dataset - [Download Cleaned Dataset Here](NashvilleHousing-Cleaned.csv) 
-
-## Data Usage
-The cleaned dataset can be used for various analyses, including exploratory data analysis, predictive modeling, and trend analysis. It can provide valuable insights into the Nashville housing market, support real estate market analysis, and inform policy decisions related to housing.
